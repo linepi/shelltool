@@ -7,15 +7,18 @@ NC="${COLOR_PF}0${COLOR_SF}"
 
 alias ..='cd ..'
 alias ...='cd ../..'
-alias rm='rm -I --preserve-root'
 alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
-alias trash='mv --force -t ~/.trash'
 alias cg='cd `git rev-parse --show-toplevel`'
 alias gh='history | grep'
 alias rebash='. ~/.bashrc'
 alias mansearch='apropos'
+
+alias trash='mv --force -t ~/.trash'
+alias trash-ls='ls ~/.trash'
+alias trash-clear='rm -rf ~/.trash/*'
+alias rm='rm -I --preserve-root -rf'
 
 mcd () {
 	mkdir -p $1
