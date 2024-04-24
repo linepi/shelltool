@@ -20,8 +20,8 @@ if ! [[ -s ~/.autojump/etc/profile.d/autojump.sh ]]; then
 	cd ${__SCRIPT_DIR}/.autojump
 	./install.py
 	cd -
-	[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source /home/wu/.autojump/etc/profile.d/autojump.sh
-	echo "[[ -s /home/wu/.autojump/etc/profile.d/autojump.sh ]] && source /home/wu/.autojump/etc/profile.d/autojump.sh" >> ~/.bashrc
+	[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
+	echo "[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh" >> ~/.bashrc
 fi
 
 set -e
