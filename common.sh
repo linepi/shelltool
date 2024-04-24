@@ -21,6 +21,7 @@ alias gh='history | grep'
 alias rebash='. ~/.bashrc'
 alias mansearch='apropos'
 alias del='trash remove'
+export PS1='$(if [ $? -eq 0 ]; then echo "\[\e[32m\]√\[\e[0m\]"; else echo "\[\e[31m\]$?\[\e[0m\]"; fi) \[\e[1;34m\]\w\[\e[0m\] $ '
 
 mcd () {
 	mkdir -p "$1"

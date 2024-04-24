@@ -16,7 +16,7 @@ if ! [[ -f ~/.fzf.bash ]]; then
 fi
 
 if ! [[ -s ~/.autojump/etc/profile.d/autojump.sh ]]; then
-	git clone git://github.com/wting/autojump.git ${__SCRIPT_DIR}/.autojump
+	git clone git@github.com/wting/autojump.git ${__SCRIPT_DIR}/.autojump
 	cd ${__SCRIPT_DIR}/.autojump
 	./install.py
 	cd -
