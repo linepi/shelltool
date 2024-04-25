@@ -21,7 +21,14 @@ alias gh='history | grep'
 alias rebash='. ~/.bashrc'
 alias mansearch='apropos'
 alias del='trash remove'
-export PS1='$(if [ $? -eq 0 ]; then echo "\[\e[32m\]√\[\e[0m\]"; else echo "\[\e[31m\]$?\[\e[0m\]"; fi) \[\e[1;34m\]\w\[\e[0m\] $ '
+
+if [[ $SEHLL == "bash" || $(echo $0) =~ 'bash' ]]; then
+    export PS1='$(if [ $? -eq 0 ]; then echo "\[\e[32m\]√\[\e[0m\]"; else echo "\[\e[31m\]$?\[\e[0m\]"; fi) \[\e[1;34m\]\w\[\e[0m\] $ '
+elif [[ $SHELL == "zsh" || $(echo $0) =~ "zsh" ]];then
+    export PS1='%(?.%F{green}√.%F{red}%?) %F{blue}%~%f $ '
+else 
+	echo "Unknown shell type"
+fi
 
 mcd () {
 	mkdir -p "$1"
