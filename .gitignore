@@ -1,5 +1,6 @@
 *
 !apps.sh
 !common.sh
+!shelltool.sh
 !.gitignore
 !trashtool.py

@@ -1,15 +1,5 @@
 #!/bin/bash
 
-COLOR_PF='\033['
-COLOR_SF='m'
-BLUE="${COLOR_PF}0;34${COLOR_SF}"
-GREEN="${COLOR_PF}0;32${COLOR_SF}"
-RED="${COLOR_PF}0;31${COLOR_SF}"
-BOLD_BLUE="${COLOR_PF}1;34${COLOR_SF}"
-BOLD_GREEN="${COLOR_PF}1;32${COLOR_SF}"
-BOLD_RED="${COLOR_PF}1;31${COLOR_SF}"
-NC="${COLOR_PF}0${COLOR_SF}"
-
 alias ..='cd ..'
 alias ...='cd ../..'
 alias sudo='sudo '
@@ -22,9 +12,9 @@ alias rebash='. ~/.bashrc'
 alias mansearch='apropos'
 alias del='trash remove'
 
-if [[ $SEHLL == "bash" || $(echo $0) =~ 'bash' ]]; then
+if [[ $SEHLL == "bash" ]]; then
     export PS1='$(if [ $? -eq 0 ]; then echo "\[\e[32m\]√\[\e[0m\]"; else echo "\[\e[31m\]$?\[\e[0m\]"; fi) \[\e[1;34m\]\w\[\e[0m\] $ '
-elif [[ $SHELL == "zsh" || $(echo $0) =~ "zsh" ]];then
+elif [[ $SHELL == "zsh" ]];then
     export PS1='%(?.%F{green}√.%F{red}%?) %F{blue}%~%f $ '
 else 
 	echo "Unknown shell type"
