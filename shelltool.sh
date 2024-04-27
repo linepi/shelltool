@@ -8,7 +8,7 @@ export BOLD_GREEN="${COLOR_PF}1;32${COLOR_SF}"
 export BOLD_RED="${COLOR_PF}1;31${COLOR_SF}"
 export NC="${COLOR_PF}0${COLOR_SF}"
 
-# __SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-__SCRIPT_DIR=$(dirname $0)
-source ${__SCRIPT_DIR}/common.sh
-source ${__SCRIPT_DIR}/apps.sh
+__SHELLTOOL_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source ${__SHELLTOOL_DIR}/preset.sh
+source ${__SHELLTOOL_DIR}/common.sh
+source ${__SHELLTOOL_DIR}/apps.sh

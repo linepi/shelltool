@@ -2,7 +2,14 @@
 
 alias ..='cd ..'
 alias ...='cd ../..'
-alias sudo='sudo '
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+alias ls='ls --color=auto'
+alias ll='ls -la'
+# -d means: list directories themselves, not their contents
+alias l.='ls -d .* --color=auto'
 alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
@@ -11,11 +18,38 @@ alias gh='history | grep'
 alias rebash='. ~/.bashrc'
 alias mansearch='apropos'
 alias del='trash remove'
+alias changemn='__RenameMachineName'
 
-if [[ $SEHLL == "bash" ]]; then
-    export PS1='$(if [ $? -eq 0 ]; then echo "\[\e[32m\]√\[\e[0m\]"; else echo "\[\e[31m\]$?\[\e[0m\]"; fi) \[\e[1;34m\]\w\[\e[0m\] $ '
-elif [[ $SHELL == "zsh" ]];then
-    export PS1='%(?.%F{green}√.%F{red}%?) %F{blue}%~%f $ '
+__RenameMachineName() {
+	echo -n 'please input the machine name you want: '
+	read -r machine_name
+	echo "$machine_name" > $__SHELLTOOL_DIR/.machine_name
+}
+__GetMachineName() {
+	if [[ -f $__SHELLTOOL_DIR/.machine_name ]]; then
+	    	while IFS= read -r line; do
+		    machine_name=$line
+		done < $__SHELLTOOL_DIR/.machine_name
+	else
+		echo -n 'please input the machine name you want: '
+		read -r machine_name
+		echo "$machine_name" > $__SHELLTOOL_DIR/.machine_name
+	fi
+}
+__GetMachineName
+
+rcfile=
+shellname=
+if [[ "$SHELL" =~ "bash" ]]; then
+	export PS1='$machine_name $(if [ $? -eq 0 ]; then echo "\[\e[32m\]√\[\e[0m\]"; else echo "\[\e[31m\]$?\[\e[0m\]"; fi) \[\e[1;34m\]\w\[\e[0m\] $ '
+	rcfile=~/.bashrc
+    shellname='bash'
+    export SHELL=bash
+elif [[ "$SHELL" =~ "zsh" ]]; then
+    export PS1='$machine_name %(?.%F{green}√.%F{red}%?) %F{blue}%~%f $ '
+	rcfile=~/.zshrc
+    shellname='zsh'
+    export SHELL=zsh
 else 
 	echo "Unknown shell type"
 fi
@@ -23,6 +57,22 @@ fi
 mcd () {
 	mkdir -p "$1"
 	cd "$1"
+}
+
+ncd() {
+    del $1
+    mcd $1
+}
+
+dockerinto() {
+    docker start $1
+    docker attach $1
+}
+
+recommit() {
+    git add .
+    git commit --amend --no-edit  
+    git push -f
 }
 
 first() {
