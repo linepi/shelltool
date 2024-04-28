@@ -18,12 +18,56 @@ alias gh='history | grep'
 alias rebash='. ~/.bashrc'
 alias mansearch='apropos'
 alias del='trash remove'
-alias changemn='__RenameMachineName'
 
+alias changemn='__RenameMachineName; rebash'
+# machine name, which is shown before PS1
 __RenameMachineName() {
+(
 	echo -n 'please input the machine name you want: '
 	read -r machine_name
+	COLOR_PF='\[\e['
+	COLOR_SF='m\]'
+	BLACK="${COLOR_PF}0;30${COLOR_SF}"
+	RED="${COLOR_PF}0;31${COLOR_SF}"
+	GREEN="${COLOR_PF}0;32${COLOR_SF}"
+	YELLOW="${COLOR_PF}0;33${COLOR_SF}"
+	BLUE="${COLOR_PF}0;34${COLOR_SF}"
+	PURPLE="${COLOR_PF}0;35${COLOR_SF}"
+	CYAN="${COLOR_PF}0;36${COLOR_SF}"
+	WHITE="${COLOR_PF}0;37${COLOR_SF}"
+	NC="${COLOR_PF}0${COLOR_SF}"
+	if [[ "$SHELL" == "bash" ]]; then
+		echo -n 'please input the color you want: '
+		read -r machine_name_color
+		if [[ "$machine_name_color" == "yellow" ]]; then  
+			machine_name=${YELLOW}$machine_name${NC}
+		elif [[ "$machine_name_color" == "blue" ]]; then  
+			machine_name=${BLUE}$machine_name${NC}	
+		elif [[ "$machine_name_color" == "red" ]]; then  
+			machine_name=${RED}$machine_name${NC}	
+		elif [[ "$machine_name_color" == "green" ]]; then  
+			machine_name=${GREEN}$machine_name${NC}	
+		elif [[ "$machine_name_color" == "purple" ]]; then  
+			machine_name=${PURPLE}$machine_name${NC}	
+		elif [[ "$machine_name_color" == "cyan" ]]; then  
+			machine_name=${CYAN}$machine_name${NC}	
+		elif [[ "$machine_name_color" == "white" ]]; then  
+			machine_name=${CYAN}$machine_name${NC}	
+		elif [[ "$machine_name_color" == "black" ]]; then  
+			machine_name=${CYAN}$machine_name${NC}	
+		else
+			echo "Unknown color, use default"
+		fi
+		echo -n 'bold or underline or nothing? (b/u/n) '
+		read -r machine_name_bold
+		if [[ $machine_name_bold == b ]]; then
+			machine_name=$(echo $machine_name | sed s/./1/6)
+		elif [[ $machine_name_bold == u ]]; then
+			machine_name=$(echo $machine_name | sed s/./4/6)
+		fi
+	fi
 	echo "$machine_name" > $__SHELLTOOL_DIR/.machine_name
+)
 }
 __GetMachineName() {
 	if [[ -f $__SHELLTOOL_DIR/.machine_name ]]; then
@@ -31,9 +75,7 @@ __GetMachineName() {
 		    machine_name=$line
 		done < $__SHELLTOOL_DIR/.machine_name
 	else
-		echo -n 'please input the machine name you want: '
-		read -r machine_name
-		echo "$machine_name" > $__SHELLTOOL_DIR/.machine_name
+		__RenameMachineName
 	fi
 }
 __GetMachineName
@@ -41,12 +83,12 @@ __GetMachineName
 rcfile=
 shellname=
 if [[ "$SHELL" =~ "bash" ]]; then
-	export PS1='$machine_name $(if [ $? -eq 0 ]; then echo "\[\e[32m\]√\[\e[0m\]"; else echo "\[\e[31m\]$?\[\e[0m\]"; fi) \[\e[1;34m\]\w\[\e[0m\] $ '
+	export PS1="$machine_name $(if [ $? -eq 0 ]; then echo '\[\e[32m\]√\[\e[0m\]'; else echo '\[\e[31m\]$?\[\e[0m\]'; fi) \[\e[1;34m\]\w\[\e[0m\] $ "
 	rcfile=~/.bashrc
     shellname='bash'
     export SHELL=bash
 elif [[ "$SHELL" =~ "zsh" ]]; then
-    export PS1='$machine_name %(?.%F{green}√.%F{red}%?) %F{blue}%~%f $ '
+    export PS1="$machine_name %(?.%F{green}√.%F{red}%?) %F{blue}%~%f $ "
 	rcfile=~/.zshrc
     shellname='zsh'
     export SHELL=zsh
