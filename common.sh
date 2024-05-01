@@ -15,7 +15,7 @@ alias cp='cp -i'
 alias ln='ln -i'
 alias cg='cd `git rev-parse --show-toplevel`'
 alias gh='history | grep'
-alias rebash='. ~/.bashrc'
+alias rebash='. $rcfile'
 alias mansearch='apropos'
 alias del='trash remove'
 
@@ -36,7 +36,7 @@ __RenameMachineName() {
 	CYAN="${COLOR_PF}0;36${COLOR_SF}"
 	WHITE="${COLOR_PF}0;37${COLOR_SF}"
 	NC="${COLOR_PF}0${COLOR_SF}"
-	if [[ "$SHELL" == "bash" ]]; then
+	if [[ "$SHELL" =~ "bash" ]]; then
 		echo -n 'please input the color you want: '
 		read -r machine_name_color
 		if [[ "$machine_name_color" == "yellow" ]]; then  
@@ -83,15 +83,13 @@ __GetMachineName
 rcfile=
 shellname=
 if [[ "$SHELL" =~ "bash" ]]; then
-	export PS1="$machine_name $(if [ $? -eq 0 ]; then echo '\[\e[32m\]√\[\e[0m\]'; else echo '\[\e[31m\]$?\[\e[0m\]'; fi) \[\e[1;34m\]\w\[\e[0m\] $ "
+	export PS1="$machine_name $(if [ $? -eq 0 ]; then echo '\[\e[32m\]√\[\e[0m\]'; else echo '\[\e[31m\]$?\[\e[0m\]'; fi) \[\e[1;34m\]\w\[\e[0m\] \$ "
 	rcfile=~/.bashrc
     shellname='bash'
-    export SHELL=bash
 elif [[ "$SHELL" =~ "zsh" ]]; then
-    export PS1="$machine_name %(?.%F{green}√.%F{red}%?) %F{blue}%~%f $ "
+    export PS1="$machine_name %(?.%F{green}√.%F{red}%?) %F{blue}%~%f %# "
 	rcfile=~/.zshrc
     shellname='zsh'
-    export SHELL=zsh
 else 
 	echo "Unknown shell type"
 fi
@@ -99,6 +97,10 @@ fi
 mcd () {
 	mkdir -p "$1"
 	cd "$1"
+}
+
+mandump() {
+	man $1 | col -b > $1.txt
 }
 
 ncd() {

@@ -33,3 +33,14 @@ fi
 if ! command_exists python3; then
     osinstall python3
 fi
+
+if ! command_exists tmux; then
+    osinstall tmux
+    cp $__SHELLTOOL_DIR/.tmux.conf ~/.tmux.conf
+fi
+
+if ! command_exists nvim; then
+    osinstall neovim
+fi
+alias vim='nvim'
+alias vi='nvim'
