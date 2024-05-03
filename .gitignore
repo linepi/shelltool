@@ -6,3 +6,5 @@
 !.gitignore
 !trashtool.py
 !.tmux.conf
+!nvim
+!nvim/**

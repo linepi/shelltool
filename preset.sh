@@ -10,9 +10,9 @@ command_exists() {
     command -v "$@" > /dev/null 2>&1
 }
 
-osinstall() {
+_osinstall() {
     if command_exists apt; then
-        sudo apt install $@
+        yes | sudo apt install $@
     elif command_exists yum; then
         sudo yum install -y $@
     elif command_exists brew; then
@@ -22,25 +22,32 @@ osinstall() {
     fi
 }
 
-if ! command_exists wget; then
-    osinstall wget
-fi
+osinstall() {
+    if ! command_exists $1; then
+        _osinstall $@
+    fi
+}
 
-if ! command_exists curl; then
-    osinstall curl
-fi
-
-if ! command_exists python3; then
-    osinstall python3
-fi
-
-if ! command_exists tmux; then
-    osinstall tmux
-    cp $__SHELLTOOL_DIR/.tmux.conf ~/.tmux.conf
-fi
+osinstall wget
+osinstall curl
+osinstall python3
+osinstall tmux
+cp $__SHELLTOOL_DIR/.tmux.conf ~/.tmux.conf
 
 if ! command_exists nvim; then
+    if ! command_exists add-apt-repository; then
+        osinstall software-properties-common
+    fi
+    if ! command_exists gcc; then
+        osinstall build-essential
+    fi
+    osinstall unzip
+    yes | sudo add-apt-repository ppa:neovim-ppa/unstable
+    yes | sudo apt update
     osinstall neovim
+    osinstall ripgrep
+    mkdir -p ~/.config
+    cp -r $__SHELLTOOL_DIR/nvim ~/.config
 fi
 alias vim='nvim'
 alias vi='nvim'
