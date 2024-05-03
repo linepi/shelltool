@@ -1,0 +1,22 @@
+{
+        "editor.formatOnSave": true,
+        "files.autoSave": "afterDelay",
+        "clangd.path": "clangd",
+        "clangd.arguments": [
+                "--compile-commands-dir=${workspaceFolder}",
+                "--header-insertion=never",
+                "--completion-style=detailed",
+                "--all-scopes-completion",
+                "--log=info",
+                "--pretty",
+                "-j=2"
+        ],
+        "clangd.onConfigChanged": "restart",
+        "clangd.restartAfterCrash": true,
+        "clangd.checkUpdates": true,
+        "clangd.enableCodeCompletion": true,
+        "clangd.serverCompletionRanking": true,
+        "editor.inlayHints.enabled": "offUnlessPressed",
+        "editor.links": false,
+        "problems.visibility": true
+}

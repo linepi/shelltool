@@ -6,5 +6,6 @@
 !.gitignore
 !trashtool.py
 !.tmux.conf
+!vscode_settings.json
 !nvim
 !nvim/**
