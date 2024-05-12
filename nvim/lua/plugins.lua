@@ -29,9 +29,23 @@ require("lazy").setup({
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
     {
+        "puremourning/vimspector",
+        event = "InsertEnter",
+        keys = {"j", "h", "k", "l"}
+    },
+    -- "tpope/vim-obsession",
+    -- telescope extension to support project
+    {
+        "ahmedkhalf/project.nvim",
+        lazy = true,
+        config = function()
+            require("project_nvim").setup({})
+        end
+    },
+    {
       "okuuva/auto-save.nvim",
       cmd = "ASToggle", -- optional for lazy loading on command
-      event = { "InsertLeave", "TextChanged" }, -- optional for lazy loading on trigger events
+      event = { "InsertLeave" }, -- optional for lazy loading on trigger events
       opts = {
           enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
           execution_message = {
@@ -39,12 +53,6 @@ require("lazy").setup({
           },
       }
     },
-    -- {
-    --     "simrat39/rust-tools.nvim",
-    --     config = function()
-    --         require("rust-tools")
-    --     end,
-    -- },
 	-- Add hooks to LSP to support Linter && Formatter
 	{
 		"jay-babu/mason-null-ls.nvim",
@@ -69,18 +77,23 @@ require("lazy").setup({
 	-- Auto-completion engine
 	{
 		"hrsh7th/nvim-cmp",
-		dependencies = { "lspkind.nvim" },
+        event = "InsertEnter",
+        keys = {"j", "h", "k", "l"},
+		dependencies = {
+            "lspkind.nvim",
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
+        },
 		config = function()
 			require("config.nvim-cmp")
 		end,
 	},
-	{ "hrsh7th/cmp-nvim-lsp", dependencies = { "nvim-cmp" } },
-	{ "hrsh7th/cmp-buffer", dependencies = { "nvim-cmp" } }, -- buffer auto-completion
-	{ "hrsh7th/cmp-path", dependencies = { "nvim-cmp" } }, -- path auto-completion
-	{ "hrsh7th/cmp-cmdline", dependencies = { "nvim-cmp" } }, -- cmdline auto-completion
 	-- Code snippet engine
 	{
 		"L3MON4D3/LuaSnip",
+        ft = { "lua" },
 		version = "v2.*",
 	},
 	-- Colorscheme
@@ -123,11 +136,11 @@ require("lazy").setup({
 		},
 		dependencies = {
 			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
+            "MunifTanjim/nui.nvim",
 			-- OPTIONAL:
 			--   `nvim-notify` is only needed, if you want to use the notification view.
 			--   If not available, we use `mini` as the fallback
-            "rcarriga/nvim-notify",
+            -- "rcarriga/nvim-notify",
 		},
 	},
 	-- Git integration
@@ -135,6 +148,8 @@ require("lazy").setup({
 	-- Git decorations
 	{
 		"lewis6991/gitsigns.nvim",
+        event = "InsertEnter",
+        keys = {"j", "h", "k", "l"},
 		config = function()
 			require("config.gitsigns")
 		end,
@@ -151,9 +166,21 @@ require("lazy").setup({
 	--     1. `gcc` to comment a line
 	--     2. select lines in visual mode and run `gc` to comment/uncomment lines
 	"tpope/vim-commentary",
+	-- File explorer
+	{
+		"nvim-tree/nvim-tree.lua",
+        -- event = "VeryLazy",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons", -- optional, for file icons
+		},
+		config = function()
+			require("config.nvim-tree")
+		end,
+	},
 	-- Treesitter-integration
 	{
 		"nvim-treesitter/nvim-treesitter",
+        event = "VeryLazy",
 		build = ":TSUpdate",
 		config = function()
 			require("config.nvim-treesitter")
@@ -162,6 +189,7 @@ require("lazy").setup({
 	-- Nvim-treesitter text objects
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
+        event = "VeryLazy",
 		dependencies = "nvim-treesitter/nvim-treesitter",
 		config = function()
 			require("config.nvim-treesitter-textobjects")
@@ -170,6 +198,8 @@ require("lazy").setup({
 	-- Show indentation and blankline
 	{
 		"lukas-reineke/indent-blankline.nvim",
+        event = "InsertEnter",
+        keys = {"j", "h", "k", "l"},
 		config = function()
 			require("config.indent-blankline")
 		end,
@@ -177,6 +207,7 @@ require("lazy").setup({
 	-- Status line
 	{
 		"nvim-lualine/lualine.nvim",
+        ft = { "lua" },
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("config.lualine")
@@ -193,30 +224,29 @@ require("lazy").setup({
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
-	-- File explorer
-	{
-		"nvim-tree/nvim-tree.lua",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons", -- optional, for file icons
-		},
-		config = function()
-			require("config.nvim-tree")
-		end,
-	},
 	-- Smart motion
 	-- Usage: Enter 2-character search pattern then press a label character to
 	--        pick your target.
 	--        Initiate the sesarch with `s`(forward) or `S`(backward)
 	{
 		"ggandor/leap.nvim",
+        event = "VeryLazy",
 		config = function()
 			-- See `:h leap-custom-mappings` for more details
 			require("leap").create_default_mappings()
+            require('leap').opts.safe_labels = {}
+            vim.keymap.set({'n', 'v', 'o'}, 's', function ()
+              require('leap').leap {
+                target_windows = require('leap.user').get_focusable_windows()
+              }
+            end)
 		end,
 	},
-	-- Better terminal integration
+	-- Better terminal integration, <C-\> to toggle
 	{
 		"akinsho/toggleterm.nvim",
+        event = "InsertEnter",
+        keys = {"j", "h", "k", "l"},
 		version = "*",
 		config = function()
 			require("config.toggleterm")
@@ -226,6 +256,8 @@ require("lazy").setup({
 	{
 
 		"nvim-telescope/telescope.nvim",
+        event = "InsertEnter",
+        keys = {"j", "h", "k", "l"},
 		branch = "0.1.x",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()

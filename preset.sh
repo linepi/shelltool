@@ -32,8 +32,10 @@ osinstall() {
 osinstall wget
 osinstall curl
 osinstall python3
-osinstall tmux
-cp $__SHELLTOOL_DIR/.tmux.conf ~/.tmux.conf
+if ! command_exists tmux; then
+    osinstall tmux
+    cp $__SHELLTOOL_DIR/.tmux.conf ~/.tmux.conf
+fi
 
 if ! command_exists nvim; then
     if command_exists apt; then
