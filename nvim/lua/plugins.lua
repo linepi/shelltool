@@ -169,7 +169,6 @@ require("lazy").setup({
 	-- File explorer
 	{
 		"nvim-tree/nvim-tree.lua",
-        -- event = "VeryLazy",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons", -- optional, for file icons
 		},
@@ -230,7 +229,6 @@ require("lazy").setup({
 	--        Initiate the sesarch with `s`(forward) or `S`(backward)
 	{
 		"ggandor/leap.nvim",
-        event = "VeryLazy",
 		config = function()
 			-- See `:h leap-custom-mappings` for more details
 			require("leap").create_default_mappings()
