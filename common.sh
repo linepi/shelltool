@@ -21,10 +21,13 @@ alias del='trash remove'
 
 alias changemn='__RenameMachineName; rebash'
 
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+export HISTSIZE=100000       # big big history
+export HISTFILESIZE=100000   # big big history
 shopt -s histappend
-
 # After each command, append to the history file and reread it
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # machine name, which is shown before PS1
 __RenameMachineName() {
@@ -282,19 +285,16 @@ trash () {
         fi
         for var in "${@: 2}"; do
             repeat_id=0
-            _fpath_tmp=$trash_dir/${var}
+            _fpath_tmp=$trash_dir/$(basename $var)
             while true; do
                 if ! [[ -f "$_fpath_tmp" ]] && ! [[ -d "$_fpath_tmp" ]]; then
                     break
                 fi
                 ((repeat_id++))
-                _fpath_tmp=$trash_dir/${var}_Repeat$repeat_id
+                _fpath_tmp=$trash_dir/$(basename $_fpath_tmp)_Repeat$repeat_id
             done
-            dstname=$var
-            ((repeat_id != 0)) && dstname=${var}_Repeat$repeat_id
-            mv $var $trash_dir/$dstname
-
-            trash-record $dstname $(realpath $var)
+            mv $var $_fpath_tmp
+            trash-record $(basename $_fpath_tmp) $(realpath $var)
         done
     else
         trash-help
