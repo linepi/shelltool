@@ -285,13 +285,14 @@ trash () {
         fi
         for var in "${@: 2}"; do
             repeat_id=0
-            _fpath_tmp=$trash_dir/$(basename $var)
+            _basename="$(basename $var)"
+            _fpath_tmp="$trash_dir/$_basename"
             while true; do
                 if ! [[ -f "$_fpath_tmp" ]] && ! [[ -d "$_fpath_tmp" ]]; then
                     break
                 fi
                 ((repeat_id++))
-                _fpath_tmp=$trash_dir/$(basename $_fpath_tmp)_Repeat$repeat_id
+                _fpath_tmp=$trash_dir/${_basename}_R$repeat_id
             done
             mv $var $_fpath_tmp
             trash-record $(basename $_fpath_tmp) $(realpath $var)
