@@ -11,7 +11,7 @@ require("mason").setup({
 
 require("mason-lspconfig").setup({
 	-- A list of servers to automatically install if they're not already installed
-    ensure_installed = { "lua_ls", "clangd", "rust_analyzer", "bashls" },
+    ensure_installed = { "lua_ls", "clangd", "rust_analyzer" },
 })
 
 -- Set different settings for different languages' LSP
@@ -27,7 +27,7 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<space>i", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<space>d", vim.diagnostic.setloclist, opts)
+-- vim.keymap.set("n", "<space>d", vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -95,10 +95,6 @@ lspconfig.lua_ls.setup({
 			},
 		},
 	},
-})
-
-lspconfig.bashls.setup({
-    on_attach = on_attach,
 })
 
 vim.api.nvim_create_autocmd('FileType', {

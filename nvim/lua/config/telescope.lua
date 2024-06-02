@@ -85,16 +85,15 @@ require("telescope").setup({
 })
 
 -- <C-/> in insert or ? in normal to open keymappings
--- vim.keymap.set({"n", "v", "i"}, "<A-l>", builtin.builtin, {}) -- list all telescope builtin 
-
-vim.keymap.set({"n", "v", "i"}, "<A-s>", builtin.grep_string, {}) -- find string in workspace
-vim.keymap.set({"n", "v", "i"}, "<A-f>", builtin.live_grep, {}) -- find word global
-
-vim.keymap.set({"n", "v", "i"}, "<A-o>", builtin.oldfiles, {})
+-- vim.keymap.set({"n", "v", "i"}, "<A-s>", builtin.grep_string, {}) -- find string in workspace
+-- vim.keymap.set({"n", "v", "i"}, "<A-o>", builtin.oldfiles, {})
+--
+vim.keymap.set({"n", "v", "i"}, "<A-l>", builtin.builtin, {}) -- list all telescope builtin 
 vim.keymap.set({"n", "v", "i"}, "<A-p>", builtin.find_files, {}) -- find file in workspace
-
+vim.keymap.set({"n", "v", "i"}, "<A-f>", builtin.live_grep, {}) -- find word global
+vim.keymap.set({"n", "v", "i"}, "<A-d>", builtin.treesitter, {}) -- definitions in current file
+vim.keymap.set({"n", "v", "i"}, "<A-n>", ":Telescope notify<CR>", {}) -- notify history
 vim.keymap.set({"n", "v"}, "<C-b>", builtin.buffers, {}) -- buffer tab
-vim.keymap.set({"n", "v", "i"}, "<A-a>", builtin.treesitter, {}) -- definitions in current file
 
 
 

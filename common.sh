@@ -305,8 +305,8 @@ trash () {
 RM () {
     echo -en "Permanently ${BOLD_RED}DELETE${NC}? (y|n): "
     read -r readed < /dev/tty
-    if [[ "$readed" == "y" ]]; then
-        rm -I --preserve-root -rf $@
+    if [[ "${readed}" == "y" ]]; then
+        rm -I --preserve-root -rf "$@"
     else
         return
     fi 

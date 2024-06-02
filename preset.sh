@@ -13,11 +13,11 @@ command_exists() {
 
 _osinstall() {
     if command_exists apt; then
-        yes | sudo apt install $@
+        yes | sudo apt install "$@"
     elif command_exists yum; then
-        sudo yum install -y $@
+        sudo yum install -y "$@"
     elif command_exists brew; then
-        brew install $@
+        brew install "$@"
     else
         echo 'no osinstall method found'
     fi
@@ -25,7 +25,7 @@ _osinstall() {
 
 osinstall() {
     if ! command_exists $1; then
-        _osinstall $@
+        _osinstall "$@"
     fi
 }
 
