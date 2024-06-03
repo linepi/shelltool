@@ -43,6 +43,7 @@ local function on_attach(bufnr)
 	-- vim.keymap.set("n", "m", api.marks.toggle, opts("Toggle Bookmark"))
 	-- vim.keymap.set("n", "O", api.node.open.no_window_picker, opts("Open: No Window Picker"))
 	-- vim.keymap.set("n", "U", api.tree.toggle_custom_filter, opts("Toggle Hidden"))
+	-- vim.keymap.set("n", "gy", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
     --
 	vim.keymap.set("n", "<C-t>", api.node.open.tab, opts("Open: New Tab"))
 	vim.keymap.set("n", "<C-]>", api.tree.change_root_to_node, opts("CD"))
@@ -61,7 +62,6 @@ local function on_attach(bufnr)
 	vim.keymap.set("n", "F", api.live_filter.clear, opts("Clean Filter"))
 	vim.keymap.set("n", "f", api.live_filter.start, opts("Filter"))
 	vim.keymap.set("n", "g?", api.tree.toggle_help, opts("Help"))
-	vim.keymap.set("n", "gy", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
 	vim.keymap.set("n", "H", api.tree.toggle_hidden_filter, opts("Toggle Dotfiles"))
 	vim.keymap.set("n", "I", api.tree.toggle_gitignore_filter, opts("Toggle Git Ignore"))
 	vim.keymap.set("n", "J", api.node.navigate.sibling.last, opts("Last Sibling"))
@@ -74,7 +74,7 @@ local function on_attach(bufnr)
 	vim.keymap.set("n", "W", api.tree.collapse_all, opts("Collapse"))
 	vim.keymap.set("n", "x", api.fs.cut, opts("Cut"))
 	vim.keymap.set("n", "y", api.fs.copy.filename, opts("Copy Name"))
-	vim.keymap.set("n", "Y", api.fs.copy.relative_path, opts("Copy Relative Path"))
+	vim.keymap.set("n", "Y", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
 	vim.keymap.set("n", "<2-LeftMouse>", api.node.open.edit, opts("Open"))
 	vim.keymap.set("n", "<2-RightMouse>", api.tree.change_root_to_node, opts("CD"))
 	vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
@@ -82,6 +82,7 @@ local function on_attach(bufnr)
 	vim.keymap.set("n", "sp", api.node.open.horizontal, opts("Open: Vertical Split"))
 end
 
+local width_set = false
 -- Hint: :help nvim-tree-default-mappings
 -- setup with some options
 nvim_tree.setup({
@@ -97,4 +98,31 @@ nvim_tree.setup({
 	diagnostics = {
 		enable = true,
 	},
+    view = {
+        -- adaptive_size = false,
+        width = function()
+            if vim.fn.winnr('$') >= 2 and not width_set then
+                width_set = true
+                return 30
+            end
+            local leftmost_win = nil
+            local leftmost_col = nil
+
+            for _, win in ipairs(vim.api.nvim_list_wins()) do
+                local pos = vim.api.nvim_win_get_position(win)
+                local col = pos[2]
+
+                if leftmost_col == nil or col < leftmost_col then
+                    leftmost_win = win
+                    leftmost_col = col
+                end
+            end
+
+            if leftmost_win then
+                return vim.api.nvim_win_get_width(leftmost_win)
+            else
+                return 30 -- default width if no windows are found
+            end
+        end
+    }
 })
