@@ -14,11 +14,53 @@ vim.keymap.set({"n", "v"}, "L", "<C-w>l", opts)
 vim.keymap.set({"n", "v"}, "<C-o>", "<C-i>", opts)
 vim.keymap.set({"n", "v"}, "<C-i>", "<C-o>", opts)
 
--- Resize with arrows, delta: 2 lines
-vim.keymap.set("n", "<C-Up>", ":resize -2<CR>", opts)
-vim.keymap.set("n", "<C-Down>", ":resize +2<CR>", opts)
-vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+-- Resize with arrows
+local resize_delta = 4
+-- 向上调整窗口大小（减少行数）
+function Resize_up()
+    local pos = vim.fn.win_screenpos(0)
+    if pos[1] == 1 then
+         vim.cmd(string.format("resize -%d", resize_delta))
+    else
+         vim.cmd(string.format("resize +%d", resize_delta))
+    end
+end
+
+-- 向下调整窗口大小（增加行数）
+function Resize_down()
+    local pos = vim.fn.win_screenpos(0)
+    if pos[1] == 1 then
+         vim.cmd(string.format("resize +%d", resize_delta))
+    else
+         vim.cmd(string.format("resize -%d", resize_delta))
+    end
+end
+
+-- 向左调整窗口大小（减少列数）
+function Resize_left()
+    local pos = vim.fn.win_screenpos(0)
+    if pos[2] == 1 then
+         vim.cmd(string.format("vertical resize -%d", resize_delta))
+    else
+         vim.cmd(string.format("vertical resize +%d", resize_delta))
+    end
+end
+
+-- 向右调整窗口大小（增加列数）
+function Resize_right()
+    local pos = vim.fn.win_screenpos(0)
+    if pos[2] == 1 then
+         vim.cmd(string.format("vertical resize +%d", resize_delta))
+    else
+         vim.cmd(string.format("vertical resize -%d", resize_delta))
+    end
+end
+
+-- 设置键映射
+vim.keymap.set("n", "<C-Up>", "<cmd>lua Resize_up()<CR>", opts)
+vim.keymap.set("n", "<C-Down>", "<cmd>lua Resize_down()<CR>", opts)
+vim.keymap.set("n", "<C-Left>", "<cmd>lua Resize_left()<CR>", opts)
+vim.keymap.set("n", "<C-Right>", "<cmd>lua Resize_right()<CR>", opts)
 
 vim.keymap.set("n", "<C-E>", ":NvimTreeToggle<CR>", opts)
 
