@@ -44,6 +44,7 @@ function Resize_left()
     else
          vim.cmd(string.format("vertical resize +%d", resize_delta))
     end
+    update_nvim_tree_width()
 end
 
 -- 向右调整窗口大小（增加列数）
@@ -54,6 +55,7 @@ function Resize_right()
     else
          vim.cmd(string.format("vertical resize -%d", resize_delta))
     end
+    update_nvim_tree_width()
 end
 
 -- 设置键映射
@@ -91,7 +93,7 @@ vim.keymap.set("i", "<C-b>", "<S-Left>")
 -- redo and undo in insert mode
 vim.keymap.set("i", "<C-z>", "<esc>:undo<CR>i")
 vim.keymap.set("i", "<C-y>", "<esc>:redo<CR>i")
-vim.keymap.set("n", "<C-y>", ":redo<CR>")
+vim.keymap.set("n", "<C-y>", "<cmd>redo<CR>")
 
 -- delete without yank
 vim.keymap.set({"n", "v"}, "d", "\"_d")

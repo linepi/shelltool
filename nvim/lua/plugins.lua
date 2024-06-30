@@ -25,6 +25,7 @@ vim.opt.rtp:prepend(lazypath)
 --     opts: The table will be passed to the require(...).setup(opts)
 require("lazy").setup({
 	-- LSP manager
+    "LunarVim/bigfile.nvim",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
@@ -101,6 +102,15 @@ require("lazy").setup({
 	{
         "Mofiqul/vscode.nvim",
         -- opts = { style = 'light' },
+    },
+    {
+        "ibhagwan/fzf-lua",
+        -- optional for icon support
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+          -- calling `setup` is optional for customization
+          require("fzf-lua").setup({})
+        end
     },
     {
         "rcarriga/nvim-notify",

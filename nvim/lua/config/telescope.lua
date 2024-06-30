@@ -12,7 +12,7 @@ end
 require("telescope").load_extension("projects")
 require("telescope").setup({
     defaults = {
-        layout_strategy = 'flex', -- horizontal',
+        layout_strategy = 'horizontal', -- horizontal',
         layout_config = {
           bottom_pane = {
             height = 25,
@@ -33,13 +33,13 @@ require("telescope").setup({
           horizontal = {
             height = 0.95,
             preview_cutoff = 120,
-            prompt_position = "bottom",
+            prompt_position = "top",
             width = 0.95
           },
           vertical = {
             height = 0.9,
             preview_cutoff = 40,
-            prompt_position = "bottom",
+            prompt_position = "top",
             width = 0.8
           }
         },
@@ -47,6 +47,8 @@ require("telescope").setup({
         selection_caret = "> ",
         wrap_results = true,
         border = true,
+        sorting_strategy = "ascending",
+        scroll_strategy = "limit",
         mappings = {
             i = {
                 ["<A-j>"] = actions.preview_scrolling_down,

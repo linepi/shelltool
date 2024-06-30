@@ -47,7 +47,6 @@ local function on_attach(bufnr)
     --
 	vim.keymap.set("n", "<C-t>", api.node.open.tab, opts("Open: New Tab"))
 	vim.keymap.set("n", "<C-]>", api.tree.change_root_to_node, opts("CD"))
-	vim.keymap.set("n", "<C-k>", api.node.show_info_popup, opts("Info"))
 	vim.keymap.set("n", "<C-v>", api.node.open.vertical, opts("Open: Vertical Split"))
 	vim.keymap.set("n", "<C-x>", api.node.open.horizontal, opts("Open: Horizontal Split"))
 	vim.keymap.set("n", "<BS>", api.node.navigate.parent_close, opts("Close Directory"))
@@ -78,11 +77,47 @@ local function on_attach(bufnr)
 	vim.keymap.set("n", "<2-LeftMouse>", api.node.open.edit, opts("Open"))
 	vim.keymap.set("n", "<2-RightMouse>", api.tree.change_root_to_node, opts("CD"))
 	vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
-	vim.keymap.set("n", "vsp", api.node.open.vertical, opts("Open: Vertical Split"))
-	vim.keymap.set("n", "sp", api.node.open.horizontal, opts("Open: Vertical Split"))
+	vim.keymap.set("n", "|", api.node.open.vertical, opts("Open: Vertical Split"))
+	vim.keymap.set("n", "-", api.node.open.horizontal, opts("Open: Vertical Split"))
+	vim.keymap.set("n", ";", api.node.show_info_popup, opts("Info"))
 end
 
-local width_set = false
+local function dbg(content)
+    local file = io.open("/home/wu/.config/nvim/log.txt", "a+")
+    if not file then
+        error("Could not open file for writing")
+    end
+
+    file:write(content)
+    file:close()
+end
+local function leftmost_win_path_and_width()
+    local original_win = vim.api.nvim_get_current_win()
+    local leftmost_win = original_win
+    local min_col = 999
+
+    for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+        local col = vim.api.nvim_win_get_position(win_id)[2]
+        if col < min_col then
+            min_col = col
+            leftmost_win = win_id
+        end
+    end
+
+    vim.api.nvim_set_current_win(leftmost_win)
+    local file_path = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(leftmost_win))
+    vim.api.nvim_set_current_win(original_win)
+    return file_path, vim.api.nvim_win_get_width(leftmost_win)
+end
+
+MY_TREE_WIDTH = 30
+function update_nvim_tree_width()
+    local path, width = leftmost_win_path_and_width()
+    if string.find(path, "NvimTree") ~= nil then
+        MY_TREE_WIDTH = width
+    end
+end
+
 -- Hint: :help nvim-tree-default-mappings
 -- setup with some options
 nvim_tree.setup({
@@ -101,28 +136,7 @@ nvim_tree.setup({
     view = {
         -- adaptive_size = false,
         width = function()
-            if vim.fn.winnr('$') >= 2 and not width_set then
-                width_set = true
-                return 30
-            end
-            local leftmost_win = nil
-            local leftmost_col = nil
-
-            for _, win in ipairs(vim.api.nvim_list_wins()) do
-                local pos = vim.api.nvim_win_get_position(win)
-                local col = pos[2]
-
-                if leftmost_col == nil or col < leftmost_col then
-                    leftmost_win = win
-                    leftmost_col = col
-                end
-            end
-
-            if leftmost_win then
-                return vim.api.nvim_win_get_width(leftmost_win)
-            else
-                return 30 -- default width if no windows are found
-            end
+            return MY_TREE_WIDTH
         end
     }
 })

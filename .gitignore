@@ -9,3 +9,4 @@
 !vscode_settings.json
 !nvim
 !nvim/**
+nvim/log.txt

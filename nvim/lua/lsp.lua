@@ -97,16 +97,6 @@ lspconfig.lua_ls.setup({
 	},
 })
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'sh',
-  callback = function()
-    vim.lsp.start({
-      name = 'bash-language-server',
-      cmd = { 'bash-language-server', 'start' },
-    })
-  end,
-})
-
 -- source: https://rust-analyzer.github.io/manual.html#nvim-lsp
 lspconfig.rust_analyzer.setup({
 	on_attach = on_attach,
