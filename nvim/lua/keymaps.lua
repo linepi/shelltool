@@ -45,6 +45,7 @@ function Resize_left()
          vim.cmd(string.format("vertical resize +%d", resize_delta))
     end
     update_nvim_tree_width()
+    DBG("123\n")
 end
 
 -- 向右调整窗口大小（增加列数）
@@ -56,6 +57,7 @@ function Resize_right()
          vim.cmd(string.format("vertical resize -%d", resize_delta))
     end
     update_nvim_tree_width()
+    DBG("123\n")
 end
 
 -- 设置键映射

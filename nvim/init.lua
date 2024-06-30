@@ -16,3 +16,6 @@ require('colorscheme')
 
 -- Set LSP
 require('lsp')
+
+-- my functions
+require('myfunc')
