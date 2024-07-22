@@ -99,6 +99,7 @@ vim.keymap.set("n", "<C-y>", "<cmd>redo<CR>")
 
 -- delete without yank
 vim.keymap.set({"n", "v"}, "d", "\"_d")
+vim.keymap.set({"n", "v"}, "x", "\"_x")
 vim.keymap.set({"v"}, "p", "\"_dP")
 vim.keymap.set({"n", "v"}, "y", "\"+y")
 

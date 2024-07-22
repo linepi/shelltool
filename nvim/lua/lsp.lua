@@ -112,6 +112,11 @@ lspconfig.rust_analyzer.setup({
 
 lspconfig.clangd.setup({
 	on_attach = on_attach,
+  cmd = {
+    "clangd",
+    "-j=16",
+    "--background-index"
+  },
 })
 
 lspconfig.ocamllsp.setup({

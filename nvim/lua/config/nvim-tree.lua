@@ -124,10 +124,14 @@ nvim_tree.setup({
 	diagnostics = {
 		enable = true,
 	},
-    view = {
-        -- adaptive_size = false,
-        width = function()
-            return MY_TREE_WIDTH
-        end
-    }
+  view = {
+      -- adaptive_size = false,
+      width = function()
+          return MY_TREE_WIDTH
+      end
+  },
+  git = {
+    enable = true,
+    timeout = 400 -- (in ms)
+  }
 })
