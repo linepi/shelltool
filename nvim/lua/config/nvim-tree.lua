@@ -133,5 +133,11 @@ nvim_tree.setup({
   git = {
     enable = true,
     timeout = 400 -- (in ms)
+  },
+  actions = {
+    expand_all = {
+      max_folder_discovery = 100000,
+      exclude = {".git"},
+    },
   }
 })

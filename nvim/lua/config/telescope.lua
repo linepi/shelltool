@@ -67,6 +67,8 @@ require("telescope").setup({
                         actions.move_selection_previous(bufnr)
                     end
                 end,
+                ["<Down>"] = require('telescope.actions').cycle_history_next,
+                ["<Up>"] = require('telescope.actions').cycle_history_prev,
             },
             n = {
                 ["<A-j>"] = actions.preview_scrolling_down,
@@ -83,6 +85,8 @@ require("telescope").setup({
                         actions.move_selection_previous(bufnr)
                     end
                 end,
+                ["<Down>"] = require('telescope.actions').cycle_history_next,
+                ["<Up>"] = require('telescope.actions').cycle_history_prev,
             }
         }
     },
