@@ -9,7 +9,6 @@ if not is_ok then
 	return
 end
 
-require("telescope").load_extension("projects")
 require("telescope").load_extension("live_grep_args")
 require("telescope").setup({
     defaults = {
@@ -88,6 +87,11 @@ require("telescope").setup({
                 ["<Down>"] = require('telescope.actions').cycle_history_next,
                 ["<Up>"] = require('telescope.actions').cycle_history_prev,
             }
+        },
+        pickers = {
+          find_files = {
+            path_display = { "smart" }
+          }
         }
     },
 })
@@ -106,5 +110,6 @@ vim.keymap.set({"n", "v", "i"}, "<A-n>", function()
 end, {})
 vim.keymap.set({"n", "v"}, "<C-b>", builtin.buffers, {}) -- buffer tab
 
+vim.keymap.set("n", "<A-[>", require('fzf-lua').files, { desc = "Fzf Files" })
 
 

@@ -25,35 +25,27 @@ vim.opt.rtp:prepend(lazypath)
 --     opts: The table will be passed to the require(...).setup(opts)
 require("lazy").setup({
 	-- LSP manager
-    "LunarVim/bigfile.nvim",
+  "LunarVim/bigfile.nvim",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
-    {
-        "puremourning/vimspector",
-        event = "InsertEnter",
-        keys = {"j", "h", "k", "l"}
-    },
-    -- "tpope/vim-obsession",
-    -- telescope extension to support project
-    {
-        "ahmedkhalf/project.nvim",
-        lazy = true,
-        config = function()
-            require("project_nvim").setup({})
-        end
-    },
-    {
-      "okuuva/auto-save.nvim",
-      cmd = "ASToggle", -- optional for lazy loading on command
-      event = { "InsertLeave" }, -- optional for lazy loading on trigger events
-      opts = {
-          enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
-          execution_message = {
-              enabled = false,
-          },
-      }
-    },
+  {
+      "puremourning/vimspector",
+      event = "InsertEnter",
+      keys = {"j", "h", "k", "l"}
+  },
+  -- "tpope/vim-obsession",
+  {
+    "okuuva/auto-save.nvim",
+    cmd = "ASToggle", -- optional for lazy loading on command
+    event = { "InsertLeave" }, -- optional for lazy loading on trigger events
+    opts = {
+        enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
+        execution_message = {
+            enabled = false,
+        },
+    }
+  },
 	-- Add hooks to LSP to support Linter && Formatter
 	{
 		"jay-babu/mason-null-ls.nvim",
@@ -100,42 +92,49 @@ require("lazy").setup({
 	-- Colorscheme
 	"tanvirtin/monokai.nvim",
 	{
-        "Mofiqul/vscode.nvim",
-        -- opts = { style = 'light' },
-    },
-    {
-        "ibhagwan/fzf-lua",
-        -- optional for icon support
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-          -- calling `setup` is optional for customization
-          require("fzf-lua").setup({})
-        end
-    },
-    {
-        "rcarriga/nvim-notify",
-        opts = {
-            background_colour = "NotifyBackground",
-            fps = 60,
-            icons = {
-              DEBUG = "",
-              ERROR = "",
-              INFO = "",
-              TRACE = "✎",
-              WARN = ""
-            },
-            level = 2,
-            minimum_width = 30,
-            render = "compact",
-            stages = "fade",
-            time_formats = {
-              notification = "%T",
-              notification_history = "%FT%T"
-            },
-            timeout = 1000,
-            top_down = true
-        }
-    },
+      "Mofiqul/vscode.nvim",
+      -- opts = { style = 'light' },
+  },
+  {
+      "ibhagwan/fzf-lua",
+      -- optional for icon support
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      config = function()
+        -- calling `setup` is optional for customization
+        require("fzf-lua").setup({
+          winopts = {
+            height           = 0.95,            -- window height
+            width            = 0.95,            -- window width
+            row              = 0.35,            -- window row position (0=top, 1=bottom)
+            col              = 0.50,            -- window col position (0=left, 1=right)
+          },
+        })
+      end
+  },
+  {
+      "rcarriga/nvim-notify",
+      opts = {
+          background_colour = "NotifyBackground",
+          fps = 60,
+          icons = {
+            DEBUG = "",
+            ERROR = "",
+            INFO = "",
+            TRACE = "✎",
+            WARN = ""
+          },
+          level = 2,
+          minimum_width = 30,
+          render = "compact",
+          stages = "fade",
+          time_formats = {
+            notification = "%T",
+            notification_history = "%FT%T"
+          },
+          timeout = 1000,
+          top_down = true
+      }
+  },
 	-- Better UI
     -- Run `:checkhealth noice` to check for common issues
 	{
@@ -277,5 +276,5 @@ require("lazy").setup({
 		config = function()
 			require("config.telescope")
 		end,
-	},
+	}
 })
