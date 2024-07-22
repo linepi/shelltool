@@ -81,6 +81,8 @@ local function on_attach(bufnr)
 	vim.keymap.set("n", "|", api.node.open.vertical, opts("Open: Vertical Split"))
 	vim.keymap.set("n", "-", api.node.open.horizontal, opts("Open: Vertical Split"))
 	vim.keymap.set("n", ";", api.node.show_info_popup, opts("Info"))
+  -- global command
+  vim.keymap.set({"n", "v"}, "<A-w>", api.tree.find_file, {});
 end
 
 local function leftmost_win_path_and_width()
