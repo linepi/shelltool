@@ -66,7 +66,7 @@ vim.keymap.set("n", "<C-Down>", "<cmd>lua Resize_down()<CR>", opts)
 vim.keymap.set("n", "<C-Left>", "<cmd>lua Resize_left()<CR>", opts)
 vim.keymap.set("n", "<C-Right>", "<cmd>lua Resize_right()<CR>", opts)
 
-vim.keymap.set("n", "<C-E>", ":NvimTreeToggle<CR>", opts)
+vim.keymap.set("n", "<C-E>", "<cmd>NvimTreeToggle<CR>", opts)
 
 -- some useful mapping in n,v mode
 vim.keymap.set({"n", "v"}, "<C-p>", "9k", opts)

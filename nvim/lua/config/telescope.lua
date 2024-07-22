@@ -10,6 +10,7 @@ if not is_ok then
 end
 
 require("telescope").load_extension("projects")
+require("telescope").load_extension("live_grep_args")
 require("telescope").setup({
     defaults = {
         layout_strategy = 'horizontal', -- horizontal',
@@ -93,7 +94,8 @@ require("telescope").setup({
 --
 vim.keymap.set({"n", "v", "i"}, "<A-l>", builtin.builtin, {}) -- list all telescope builtin 
 vim.keymap.set({"n", "v", "i"}, "<A-p>", builtin.find_files, {})
-vim.keymap.set({"n", "v", "i"}, "<A-f>", builtin.live_grep, {}) -- find word global
+vim.keymap.set({"n", "v", "i"}, "<A-f>",
+    "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", {}) -- find word global
 vim.keymap.set({"n", "v", "i"}, "<A-d>", builtin.treesitter, {}) -- definitions in current file
 vim.keymap.set({"n", "v", "i"}, "<A-n>", function()
     vim.cmd("Telescope notify")

@@ -267,7 +267,13 @@ require("lazy").setup({
         event = "InsertEnter",
         keys = {"j", "h", "k", "l"},
 		branch = "0.1.x",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = {
+      {"nvim-lua/plenary.nvim"},
+      {
+          "nvim-telescope/telescope-live-grep-args.nvim" ,
+          version = "^1.0.0",
+      },
+    },
 		config = function()
 			require("config.telescope")
 		end,
