@@ -112,6 +112,12 @@ mandump() {
 	man $1 | col -b > $1.txt
 }
 
+amps() {
+  git add .
+  git commit --amend --no-edit
+  git push -f
+}
+
 ncd() {
     del $1
     mcd $1
