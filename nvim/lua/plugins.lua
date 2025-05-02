@@ -25,15 +25,9 @@ vim.opt.rtp:prepend(lazypath)
 --     opts: The table will be passed to the require(...).setup(opts)
 require("lazy").setup({
 	-- LSP manager
-  "LunarVim/bigfile.nvim",
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
-  {
-      "puremourning/vimspector",
-      event = "InsertEnter",
-      keys = {"j", "h", "k", "l"}
-  },
   -- "tpope/vim-obsession",
   {
     "okuuva/auto-save.nvim",
@@ -111,47 +105,6 @@ require("lazy").setup({
         })
       end
   },
-  {
-      "rcarriga/nvim-notify",
-      opts = {
-          background_colour = "NotifyBackground",
-          fps = 60,
-          icons = {
-            DEBUG = "",
-            ERROR = "",
-            INFO = "",
-            TRACE = "✎",
-            WARN = ""
-          },
-          level = 2,
-          minimum_width = 30,
-          render = "compact",
-          stages = "fade",
-          time_formats = {
-            notification = "%T",
-            notification_history = "%FT%T"
-          },
-          timeout = 1000,
-          top_down = true
-      }
-  },
-	-- Better UI
-    -- Run `:checkhealth noice` to check for common issues
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			-- add any options here
-		},
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-            "MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-            -- "rcarriga/nvim-notify",
-		},
-	},
 	-- Git integration
 	"tpope/vim-fugitive",
 	-- Git decorations
@@ -221,17 +174,6 @@ require("lazy").setup({
 			require("config.lualine")
 		end,
 	},
-	-- Markdown support
-	{ "preservim/vim-markdown", ft = { "markdown" } },
-	-- Markdown previewer
-	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-	},
 	-- Smart motion
 	-- Usage: Enter 2-character search pattern then press a label character to
 	--        pick your target.
@@ -247,16 +189,6 @@ require("lazy").setup({
                 target_windows = require('leap.user').get_focusable_windows()
               }
             end)
-		end,
-	},
-	-- Better terminal integration, <C-\> to toggle
-	{
-		"akinsho/toggleterm.nvim",
-        event = "InsertEnter",
-        keys = {"j", "h", "k", "l"},
-		version = "*",
-		config = function()
-			require("config.toggleterm")
 		end,
 	},
 	-- Fuzzy finder
